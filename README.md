@@ -6,6 +6,9 @@
 
 Projektin tarkoituksena oli tutkia kahden eri STM32-mallin suorituskykyä siirtää dataa anturilta sekä prosessoida se reaaliaikaisesti.  
 Toteutus hyödyntää PSSI-tiedonsiirtoväylää, DMA-siirtoa, keskeytyksiä ja HAL-kirjaston tarjoamia laitetason funktioita.
+
+Linkki koko työhön: https://oulurepo.oulu.fi/handle/10024/55126
+
 ---
 
 Repository sisältää testauskoodin, joka vastaanottaa **16-bittisiä, 128x128 pikselin kuvia anturilta** ja suorittaa **rivien summalaskennan** kuville STM32-mikrokontrollerilla.
