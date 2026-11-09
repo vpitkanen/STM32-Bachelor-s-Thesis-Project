@@ -1,68 +1,68 @@
-# STM32 Kandiprojekti
+# STM32 Bachelor's Thesis Project
 
 ---
 
-## Yhteenveto
+## Overview
 
-Projektin tarkoituksena oli tutkia kahden eri STM32-mallin suorituskykyä siirtää dataa anturilta sekä prosessoida se reaaliaikaisesti.  
-Toteutus hyödyntää PSSI-tiedonsiirtoväylää, DMA-siirtoa, keskeytyksiä ja HAL-kirjaston tarjoamia laitetason funktioita.
+The objective of this project was to evaluate and compare the performance of two different STM32 microcontroller models in transferring sensor data and processing it in real time.  
+The implementation utilizes the Parallel Synchronous Slave Interface (PSSI), Direct Memory Access (DMA), hardware interrupts, and driver functions provided by the STM32 HAL library.
 
-Linkki koko työhön: https://oulurepo.oulu.fi/handle/10024/55126
-
----
-
-Repository sisältää testauskoodin, joka vastaanottaa **16-bittisiä, 128x128 pikselin kuvia anturilta** ja suorittaa **rivien summalaskennan** kuville STM32-mikrokontrollerilla.
+🔗 **Link to full thesis:** [https://oulurepo.oulu.fi/handle/10024/55126](https://oulurepo.oulu.fi/handle/10024/55126)
 
 ---
 
-## Koodiversiot
+This repository contains test firmware that receives **16-bit, 128x128 pixel image frames from a sensor** and performs **row summation calculations** on the data using an STM32 microcontroller.
+
+---
+
+## Code Versions
 
 ### `main_H723ZG.c`
-Sisältää **STM32-H723ZG** -mallille toteutetun pääohjelman.
+Main application code implemented for the **STM32-H723ZG** target.
 
 ### `main_U575ZI.c`
-Sisältää **STM32-U575ZI** -mallille toteutetun pääohjelman.
+Main application code implemented for the **STM32-U575ZI** target.
 
 ---
 
-## Ohjelman toiminta
+## System Architecture & Execution Flow
 
-Ohjelma käynnistyy alustamalla **PSSI-väylän** ja nostamalla **ready-ohjauspinnin** ylös ilmoittamaan, että mikrokontrolleri on valmis vastaanottamaan dataa.  
-Samalla käynnistetään ajastin.
+The application initializes the **PSSI bus** and drives the **READY control pin high** to signal that the microcontroller is ready to receive data. A hardware timer is started simultaneously.
 
-1. Sensori päivittää datan, jonka jälkeen mikrokontrolleri **lukee sen ja tallentaa muistipuskuriin DMA:n avulla**.  
-2. Kun siirto on valmis ja puskuri täynnä, **DMA lähettää keskeytyssignaalin**.  
-3. Keskeytyskäsittelijässä:
-   - otetaan ajastimesta siirron kestoaika  
-   - suoritetaan datan prosessointifunktio (rivien summalaskenta)  
-   - mitataan prosessoinnin kesto  
-   - nostetaan lippumuuttuja ilmoittamaan siirron valmistumisesta  
-4. Pääohjelma (main) tarkistaa lipun tilan ja päättää:
-   - aloitetaanko uusi siirto  
-   - vai onko 10 kuvaa jo käsitelty  
+1. **Data Reception:** The sensor updates the data, which the microcontroller **reads and stores into a memory buffer using DMA**.  
+2. **Interrupt Trigger:** Once the transfer completes and the buffer is full, the **DMA triggers an interrupt**.  
+3. **Interrupt Service Routine (ISR):**
+   - Captures transfer elapsed time from the hardware timer  
+   - Executes the data processing function (row summation)  
+   - Measures processing execution time  
+   - Raises a flag variable to signal transfer completion  
+4. **Main Execution Loop:** The main loop monitors the completion flag and determines whether to:
+   - Initiate the next transfer  
+   - Terminate once 10 frames have been processed  
 
-Kun 10 kuvaa on käsitelty, ohjelma **laskee siirtoihin ja prosessointiin kuluneen kokonaisajan** ja **tulostaa tulokset terminaaliin**.
-
----
-
-## Virrankulutusmittaus
-
-Virrankulutusmittauksessa ohjelmaa muokattiin siten, että **ready-ohjauspinni nostetaan heti ylös uuden siirron aloitusta varten**, kun edellinen on valmis.  
-
+After 10 frames are processed, the program **calculates total time spent on transfer and processing** and **prints the benchmark results to the terminal**.
 
 ---
 
-## Toteutustiedot
+## Power Consumption Measurement
 
-- Ohjelmointikieli: **C (HAL-kirjasto, STM32CubeIDE)**
-- Väylä: **PSSI**
-- Kuvadata: **16-bittinen, 128×128 pikseliä**
-- Kellotaajuus: molemmat mikrokontrollerit toimivat **maksimikellotaajuudella**
-- Toiminnot: DMA, ajastimet, keskeytyskäsittely, GPIO-signaalit
+For power consumption benchmarking, the program logic was modified to **assert the READY control pin high immediately** after completing the previous frame to start the next transfer without delay.
 
 ---
 
-## Projektirakenne
+## Technical Specifications
+
+- **Programming Language & Tools:** C (STM32 HAL library, STM32CubeIDE)
+- **Bus Interface:** PSSI (Parallel Synchronous Slave Interface)
+- **Image Data:** 16-bit resolution, 128×128 pixels per frame
+- **Clock Speed:** Both microcontrollers operating at maximum system clock frequency
+- **Hardware Peripherals:** DMA, Timers, Interrupt Handling (ISR), GPIO signaling
+
+---
+
+## Project Structure
+
+```text
 STM32-Kandiprojekti/
 ├─ main_H723ZG.c
 ├─ main_U575ZI.c
