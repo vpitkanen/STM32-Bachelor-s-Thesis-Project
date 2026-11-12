@@ -58,10 +58,6 @@ Summary of transfer latency, processing time, throughput, and average power cons
 | **STM32-H723ZG** | 331 μs | 321 μs | 652 μs | ~1529 | 792 | 319.77 |
 | **STM32-U575ZI** | 663 μs | 211 μs | 874 μs | ~1143 | 396 | 28.33 |
 
-**Key Takeaways:**
-* **Throughput:** The STM32-H723ZG achieved double the PSSI bus transfer speed (792 Mb/s vs. 396 Mb/s), resulting in a ~34% higher overall frame rate.
-* **Energy Efficiency:** The ultra-low-power STM32-U575ZI consumed over **11× less power** (28.33 mW vs. 319.77 mW) while still maintaining real-time processing above 1100 FPS.
-
 ## Technical Specifications
 
 - **Programming Language & Tools:** C (STM32 HAL library, STM32CubeIDE)
