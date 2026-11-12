@@ -28,7 +28,6 @@ Main application code implemented for the **STM32-U575ZI** target.
 ## FPGA Sensor Emulator & Hardware Interface
 
 
-```text
 +-----------------------+                                  +-----------------------+
 |   Digilent Cmod A7    |              D[15:0] (LSB..MSB)  |       STM32 MCU       |
 |   (Xilinx Artix-7)    | ===============================> |     (PSSI + DMA)      |
