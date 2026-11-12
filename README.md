@@ -11,7 +11,7 @@ The implementation utilizes the Parallel Synchronous Slave Interface (PSSI), Dir
 
 ---
 
-This repository contains test firmware that receives **16-bit, 128x128 pixel image frames from a sensor** and performs **row summation calculations** on the data using an STM32 microcontroller.
+This repository contains test firmware that receives **16-bit, 128x128 pixel image frames from FPGA (Digilent Cmod A7) and performs **row summation calculations** on the data using an STM32 microcontroller.
 
 ---
 
@@ -24,6 +24,19 @@ Main application code implemented for the **STM32-H723ZG** target.
 Main application code implemented for the **STM32-U575ZI** target.
 
 ---
+
+## FPGA Sensor Emulator & Hardware Interface
+
+
+```text
++-----------------------+                                  +-----------------------+
+|   Digilent Cmod A7    |              D[15:0] (LSB..MSB)  |       STM32 MCU       |
+|   (Xilinx Artix-7)    | ===============================> |     (PSSI + DMA)      |
+|                       |          PSSI_PDCK (Bus Clock)   |                       |
+|   PSSI Bus Master /   | -------------------------------> |                       |
+|    Sensor Emulator    |          Control / Trigger       |  PD2 (GPIO Output)    |
+|                       | <------------------------------- |                       |
++-----------------------+                                  +-----------------------+
 
 ## System Architecture & Execution Flow
 
@@ -68,11 +81,4 @@ Summary of transfer latency, processing time, throughput, and average power cons
 
 ---
 
-## Project Structure
-
-```text
-STM32-Kandiprojekti/
-├─ main_H723ZG.c
-├─ main_U575ZI.c
-└─ README.md
 
