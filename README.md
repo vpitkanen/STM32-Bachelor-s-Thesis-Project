@@ -49,6 +49,18 @@ After 10 frames are processed, the program **calculates total time spent on tran
 For power consumption benchmarking, the program logic was modified to **assert the READY control pin high immediately** after completing the previous frame to start the next transfer without delay.
 
 ---
+## Benchmark Results
+
+Summary of transfer latency, processing time, throughput, and average power consumption across the two target microcontrollers:
+
+| MCU Target | PSSI Transfer | Row Summation | Total Time | Frame Rate (FPS) | Throughput (Mb/s) | Avg. Power (mW) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **STM32-H723ZG** | 331 μs | 321 μs | 652 μs | ~1529 | 792 | 319.77 |
+| **STM32-U575ZI** | 663 μs | 211 μs | 874 μs | ~1143 | 396 | 28.33 |
+
+**Key Takeaways:**
+* **Throughput:** The STM32-H723ZG achieved double the PSSI bus transfer speed (792 Mb/s vs. 396 Mb/s), resulting in a ~34% higher overall frame rate.
+* **Energy Efficiency:** The ultra-low-power STM32-U575ZI consumed over **11× less power** (28.33 mW vs. 319.77 mW) while still maintaining real-time processing above 1100 FPS.
 
 ## Technical Specifications
 
